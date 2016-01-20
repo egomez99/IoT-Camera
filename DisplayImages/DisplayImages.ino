@@ -377,15 +377,21 @@ void takePicture()
     lcd.print("Photograph taken!");
     delay(1500);
 
-    // Invoke Python script: 
-    picture.runShellCommand("python " + pathPhoto + "upload_ftp.py " + pathPhoto + filenamePhoto);
-    Serial.println("python " + pathPhoto + "upload_ftp.py " + pathPhoto + filenamePhoto);
-    delay(1000);
-    Serial.print("Uploading to server: ");
+    Serial.print("Running Python");
+    // Invoke Python script (FTP): 
+    //picture.runShellCommand("python " + pathPhoto + "upload_ftp.py " + pathPhoto + filenamePhoto);
+    
+    // Invoke Python script (Dropbox)
+    picture.runShellCommand("python " + pathPhoto + "upload_dropbox.py " + pathPhoto + filenamePhoto);
+    while(picture.running());  
+    
     Serial.print(pathPhoto);
     Serial.print(filenamePhoto);
 
+    Serial.print("Deleting photo");
+    picture.runShellCommand("rm -rf " + pathPhoto + filenamePhoto);
     while(picture.running());  
+    
 }
 
 /*********************************************************************************************************
