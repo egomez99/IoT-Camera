@@ -6,6 +6,7 @@ import base64
 import sys
 from datetime import datetime
 from temboo.core.session import TembooSession
+from temboo.Library.Google.Gmail import SendEmail
 from temboo.Library.Dropbox.FilesAndMetadata import UploadFile
 
 print str(sys.argv[1])
@@ -37,3 +38,26 @@ uploadFileResults = uploadFileChoreo.execute_with_results(uploadFileInputs)
 
 # Print the Choreo outputs
 print("Response: " + uploadFileResults.get_Response())
+
+############ Google Gmail SendEmail
+# Instantiate the Choreo
+sendEmailChoreo = SendEmail(session)
+
+# Get an InputSet object for the Choreo
+sendEmailInputs = sendEmailChoreo.new_input_set()
+
+# Set the Choreo inputs
+sendEmailInputs.set_FromAddress("\"NAME\" <email@gmail.com>")
+sendEmailInputs.set_AttachmentName("Attachment Name")
+sendEmailInputs.set_Username("username@gmail.com")
+sendEmailInputs.set_Attachment(base64_encoded_contents)
+sendEmailInputs.set_ToAddress("toemail@gmail.com")
+sendEmailInputs.set_Subject("Subject")
+sendEmailInputs.set_MessageBody("Message Body")
+sendEmailInputs.set_Password("PassWord")
+
+# Execute the Choreo
+sendEmailResults = sendEmailChoreo.execute_with_results(sendEmailInputs)
+
+# Print the Choreo outputs
+print("Success: " + sendEmailResults.get_Success())
